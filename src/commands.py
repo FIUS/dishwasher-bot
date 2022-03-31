@@ -62,7 +62,7 @@ class Commands:
             """Print help about the bots features."""
             match = botlib.MessageMatch(room, event, bot)
 
-            if self.default_match(match) and match.command("help"):
+            if self.default_match(match) and match.command("help", case_sensitive=False):
                 logger.debug("Responding with help in room %s", room.room_id)
                 await self.sendMessage(room, COMMAND_HELP)
 
@@ -70,7 +70,7 @@ class Commands:
         async def start(room: MatrixRoom, event: Event):
             """Start a dishwasher."""
             match = botlib.MessageMatch(room, event, bot)
-            if match.command("start") and self.default_match(match) and await self.authorized(match):
+            if match.command("start", case_sensitive=False) and self.default_match(match) and await self.authorized(match):
                 logger.debug("Received authorized start command from room %s with args %s", room.room_id, match.args())
                 if len(match.args()) == 0:
                     await self.sendMessage(room, "Please supply a dishwasher")
@@ -85,7 +85,7 @@ class Commands:
         async def reset(room: MatrixRoom, event: Event):
             """Reset a dishwasher."""
             match = botlib.MessageMatch(room, event, bot)
-            if match.command("reset") and self.default_match(match) and await self.authorized(match):
+            if match.command("reset", case_sensitive=False) and self.default_match(match) and await self.authorized(match):
                 logger.debug("Received authorized start command from room %s with args %s", room.room_id, match.args())
                 if len(match.args()) == 0:
                     await self.sendMessage(room, "Please supply a dishwasher")
