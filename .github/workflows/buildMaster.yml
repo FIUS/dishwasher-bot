@@ -28,3 +28,10 @@ jobs:
         with:
           push: true
           tags: fius/dishwasher-bot:latest
+      - name: Update Dockerhub Description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: fius/dishwasher-bot
+          short-description: ${{ github.event.repository.description }}
