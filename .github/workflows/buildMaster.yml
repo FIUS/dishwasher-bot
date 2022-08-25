@@ -28,6 +28,11 @@ jobs:
         with:
           push: true
           tags: fius/dishwasher-bot:latest
+  dockerhub-description:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v3
       -
         name: Update Dockerhub Description
         uses: peter-evans/dockerhub-description@v3
