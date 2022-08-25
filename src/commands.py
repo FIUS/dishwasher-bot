@@ -4,6 +4,7 @@ from typing import Callable
 import re
 from logging import Logger
 
+from nio.responses import JoinedRoomsError
 from nio.rooms import MatrixRoom
 from nio.events.room_events import Event
 
@@ -96,7 +97,10 @@ class Commands:
                     self.action_handler(Dishwasher(dishwasher), Action.RESET)
                     await self.sendMessage(room, f"Reset dishwasher: {dishwasher.capitalize()}.")
 
-    def _update_allowlist(self):
+    async def _update_allowlist(self):
+        res = await self.bot.async_client.joined_rooms()
+        if isinstance(res, JoinedRoomsError):
+            raise Exception("Failed to get joined roomes", res)
         user_ids = self.bot.async_client.rooms[self.authorization_room].users.keys()
         self.bot.config.allowlist = set([re.compile(re.escape(user_id)) for user_id in user_ids])
 
@@ -110,7 +114,10 @@ class Commands:
 
     async def authorized(self, matcher: botlib.MessageMatch) -> bool:
         """Check authorization and inform user if not authorized."""
-        self._update_allowlist()
+        try:
+            await self._update_allowlist()
+        except Exception:
+            logger.warn("failed to update allowlist", exc_info=True)
 
         if matcher.is_from_allowed_user():
             return True
