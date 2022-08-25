@@ -7,8 +7,8 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-#simplematrixbotlib = "^2.6.1"
-simplematrixbotlib =  { git = "https://github.com/i10b/simplematrixbotlib.git", rev = "0e6e570a" }
+simplematrixbotlib = "^2.7.0"
+matrix-nio = {version="0.19", extras = ["e2e"]}
 paho-mqtt = "^1.6.1"
 
 [tool.poetry.dev-dependencies]

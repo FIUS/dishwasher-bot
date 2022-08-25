@@ -9,7 +9,6 @@ in pkgs.mkShell {
   buildInputs = [
     pkgs.poetry
     poetryEnv
-    olm
   ];
 
 }

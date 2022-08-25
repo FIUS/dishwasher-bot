@@ -16,4 +16,8 @@ RUN /root/.poetry/bin/poetry install
 
 COPY src /app/src
 
+ENV DISHWASHER_BOT_CRYPTO_STORE_PATH /data/crypto-store
+ENV DISHWASHER_BOT_MATRIX_SESSION_FILE /data/session.txt
+VOLUME [ "/data" ]
+
 CMD ["python", "-m", "src.main"]
