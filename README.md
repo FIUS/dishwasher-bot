@@ -1,5 +1,7 @@
 # dishwasher-bot
 
+[![build](https://github.com/FIUS/dishwasher-bot/actions/workflows/buildMaster.yml/badge.svg)](https://github.com/FIUS/dishwasher-bot/actions/workflows/buildMaster.yml)
+
 Matrix bot for our dishwasher sign
 
 ## Configuration
