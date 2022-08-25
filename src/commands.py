@@ -4,7 +4,7 @@ from typing import Callable
 import re
 from logging import Logger
 
-from nio.responses import JoinedRoomsError
+from nio.responses import JoinedMembersError, JoinedMembersResponse
 from nio.rooms import MatrixRoom
 from nio.events.room_events import Event
 
@@ -98,11 +98,11 @@ class Commands:
                     await self.sendMessage(room, f"Reset dishwasher: {dishwasher.capitalize()}.")
 
     async def _update_allowlist(self):
-        res = await self.bot.async_client.joined_rooms()
-        if isinstance(res, JoinedRoomsError):
-            raise Exception("Failed to get joined roomes", res)
-        user_ids = self.bot.async_client.rooms[self.authorization_room].users.keys()
-        self.bot.config.allowlist = set([re.compile(re.escape(user_id)) for user_id in user_ids])
+        res = await self.bot.async_client.joined_members(self.authorization_room)
+        if not isinstance(res, JoinedMembersResponse):
+            raise Exception("Failed to get joined rooms", res)
+        users = res.members
+        self.bot.config.allowlist = set([re.compile(re.escape(user.user_id)) for user in users])
 
     def default_match(self, matcher: botlib.MessageMatch) -> bool:
         """Check if we should answer."""
