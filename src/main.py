@@ -29,11 +29,17 @@ def main():
     creds = botlib.Creds(
         homeserver=load_from_env("DISHWASHER_BOT_MATRIX_HOMESERVER"),
         username=load_from_env("DISHWASHER_BOT_MATRIX_USER"),
-        access_token=load_from_env("DISHWASHER_BOT_MATRIX_ACCESS_TOKEN"),
-        session_stored_file=load_from_env("DISHWASHER_BOT_MATRIX_SESSION_FILE", "session.txt")
+        login_token=load_from_env("DISHWASHER_BOT_MATRIX_LOGIN_TOKEN"),
+        session_stored_file=load_from_env("DISHWASHER_BOT_MATRIX_SESSION_FILE", "./session.txt")
     )
 
-    bot = botlib.Bot(creds)
+    config = botlib.Config()
+    config.encryption_enabled = True
+    config.emoji_verify = False
+    config.ignore_unverified_devices = True
+    config.store_path = load_from_env("DISHWASHER_BOT_CRYPTO_STORE_PATH", "./crypto-store/")
+
+    bot = botlib.Bot(creds, config)
 
     # Connect to mqtt
     def on_connect(client, userdata, flags, rc):
