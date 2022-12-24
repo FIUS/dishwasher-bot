@@ -4,15 +4,15 @@ RUN apt-get update && \
     apt-get install -y libolm-dev && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSL https://install.python-poetry.org | python3 -
-RUN /root/.poetry/bin/poetry config virtualenvs.create false
+RUN pip install poetry==1.2.2
+RUN poetry config virtualenvs.create false
 
 WORKDIR /app
 
 COPY pyproject.toml /app/
 COPY poetry.lock /app/
 
-RUN /root/.poetry/bin/poetry install
+RUN poetry install
 
 COPY src /app/src
 
